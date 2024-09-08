@@ -1,17 +1,18 @@
 {
-  "name": "foundry-typescript-template",
-  "title": "Typescript Template",
-  "description": "", 
+  "id": "sructured-table-results",
+  "title": "Structured Table Results",
+  "description": "Adds a WSIWIG (visual) editor for roll table results.", 
   "authors": [
     {
-      "name": "spacemandev",
-      "discord": "spacemandev#6256"
+      "name": "tanglisha",
     }
   ],
   "version": "0.0.1",
-  "minimumCoreVersion": "0.7.9",
-  "compatibleCoreVersion": "0.7.9",
-  "manifestPlusVersion": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12",
+    "maximum": "12"
+  },
   "url": "",
   "manifest": "",
   "download": "",
@@ -19,7 +20,7 @@
   "includes": [
     "./assets/**",
     "./lang/**",
-    "./scripts/**",
+    "./esmodules/**",
     "./styles/**",
     "./templates/**",
     "./module.json",
