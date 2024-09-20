@@ -1,5 +1,5 @@
 {
-  "id": "sructured-table-results",
+  "id": "structured-table-results",
   "title": "Structured Table Results",
   "description": "Adds a WSIWIG (visual) editor for roll table results.", 
   "authors": [
@@ -41,16 +41,6 @@
     }
   ],
   "esmodules": [
-    "scripts/module.js"
-  ],
-  "styles": [
-    "styles/module.css"
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
+    "esmodules/module.js"
   ]
 }

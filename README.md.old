@@ -1,10 +1,17 @@
+![](https://img.shields.io/badge/Foundry-v0.7.9-informational)
+<!--- Downloads @ Latest Badge -->
+<!--- ![Latest Release Download Count](https://img.shields.io/github/downloads/tanglisha/structured-table-results/latest/module.zip) -->
+
+<!--- Forge Bazaar Install % Badge -->
+<!--- replace <your-module-name> with the `name` in your manifest -->
+<!--- ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2FStructured%2FTable%2FResults&colorB=4aa94a) -->
+
 # Changelog
-*Please for the love of all that you hold dear, do everyone a favor and include a changelog here rather than making people guess at the capabilities of your module since last release*
+## 0.1
+First commit
 
 # Description
-This is a typescript template to get you started. This is not intended for beginners.
-
-Please use the javascript template as necessary for your stuff.
+Adds a WSIWIG editor to roll table results.
 
 
 ## Manifest Plus

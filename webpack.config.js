@@ -4,13 +4,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 const isProduction = process.env.NODE_ENV == 'production';
-const isTest = process.env.NODE_ENV == 'test';
 
 const stylesHandler = 'style-loader';
 
-
 const config = {
-    entry: ['./esmodules/module.ts'],
+    entry: [
+        './src/esmodules/module.ts',
+    ],
     watch: isProduction ? false : true,
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -53,24 +53,16 @@ const config = {
     },
 };
 
-config.context = path.resolve(__dirname, `src`)
+// config.context = path.resolve(__dirname, `src`)
 
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
         
         
-    } /*else if (isTest) {
+    } else {
         config.mode = 'development';
-        config.frameworks.push('jasmine');
-        config.files.push('spec/helpers/babel.js');
-        // config.webpack.stats = {
-              
-        // }
-        config.webpack.devtool = "inline-source-map";
-        // config.autoWatch = true;
-    }*/ else {
-        config.mode = 'development';
+        config.watch = true;
     }
 
     return config;
