@@ -1,17 +1,21 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-const CopyPlugin = require("copy-webpack-plugin");
 
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
-const isTest = process.env.NODE_ENV == 'test';
 
-const stylesHandler = 'style-loader';
+
+const stylesHandler = MiniCssExtractPlugin.loader;
+
 
 
 const config = {
-    entry: ['./esmodules/module.ts'],
-    watch: isProduction ? false : true,
+    entry: './src/esmodules/module.ts',
+    watch: isProduction ? false : true, 
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "esmodules/module.js",
@@ -20,13 +24,17 @@ const config = {
     plugins: [
         new CopyPlugin({
             patterns: [
+                { from: 'module.json', to: 'module.json' },
+            ]
+        }),
+        /*new HtmlWebpackPlugin({
+            template: 'index.html',
+        }),*/
 
-              { from: "./static"},
-            ],
-            options: {
-              concurrency: 100,
-            },
-          }),
+        new MiniCssExtractPlugin(),
+
+        // Add your plugins here
+        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
     module: {
         rules: [
@@ -51,27 +59,22 @@ const config = {
     resolve: {
         extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
     },
+    stats: {
+        children: true
+    },
 };
 
-config.context = path.resolve(__dirname, `src`)
+// config.context = path.resolve(__dirname, 'src');
 
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
         
         
-    } /*else if (isTest) {
-        config.mode = 'development';
-        config.frameworks.push('jasmine');
-        config.files.push('spec/helpers/babel.js');
-        // config.webpack.stats = {
-              
-        // }
-        config.webpack.devtool = "inline-source-map";
-        // config.autoWatch = true;
-    }*/ else {
+        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+        
+    } else {
         config.mode = 'development';
     }
-
     return config;
 };
