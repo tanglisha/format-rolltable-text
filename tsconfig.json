@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "allowUmdGlobalAccess": true,
     "noImplicitAny": true,
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "module": "ESNext",
     "esModuleInterop": true,
-    "strictNullChecks": true,
-    "target": "es5",
+    "strict": true,
     "allowJs": true,
-    "types": ["tanglisha"]
+    "target": "ES6",
+    "lib": ["ESNext","DOM"],
+    "types": ["@league-of-foundry-developers/foundry-vtt-types", "@types/jasmine"]
   },
-  "files": ["src/esmodules/module.ts"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }},
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+  "files": ["src/esmodules/module.ts", "tests/module.test.ts"]
 }
