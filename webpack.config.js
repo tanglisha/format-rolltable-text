@@ -1,16 +1,17 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 const isTest = process.env.NODE_ENV == "test";
+
 const moduleExcludes = () => {
     if (isProduction) {
-        return ["/node_modules/", "/tests/", "/test/"];
+        return ["/node_modules/", "/__tests__/"];
     }
     return [];
 };
@@ -18,22 +19,31 @@ const moduleExcludes = () => {
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
-  entry: "./src/esmodules/module.ts",
+  mode: isProduction ? "production" : "development",
+  entry: {
+    module: "./src/esmodules/module.ts",
+  },
   watch: isProduction ? false : true,
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "esmodules/module.js",
+    filename: "esmodules/[name].js",
     clean: true,
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: "module.json", to: "module.json" }],
+      patterns: [
+        { from: "module.json", to: "module.json" },
+      ],
     }),
     /*new HtmlWebpackPlugin({
             template: 'index.html',
         }),*/
 
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      // filename: '[name].css',
+}),
+
+    new RemoveEmptyScriptsPlugin(),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -43,7 +53,7 @@ const config = {
       {
         test: /\.(ts|tsx)$/i,
         exclude: moduleExcludes(),
-        use: ["babel-loader"],
+        use: ["ts-loader"],
       },
       {
         test: /\.css$/i,

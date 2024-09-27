@@ -1,21 +1,33 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowUmdGlobalAccess": true,
-    "noImplicitAny": true,
-    "module": "ESNext",
-    "esModuleInterop": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "removeComments": true,
+    "declaration": true,
     "strict": true,
-    "allowJs": true,
-    "target": "ES6",
-    "lib": ["ESNext","DOM"],
-    "types": ["@league-of-foundry-developers/foundry-vtt-types", "@types/jasmine"]
+    "noImplicitReturns": true,
+    "inlineSources": true,
+    "target": "ES2022",
+    "lib": ["DOM", "ES2022"],
+    "types": [
+      "foundry-vtt-types",
+      "node",
+    ],
+    "esModuleInterop": true,
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@league-of-foundry-developers"
+    ]
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }},
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"],
-  "files": ["src/esmodules/module.ts", "tests/module.test.ts"]
+  "compileOnSave": true,
+  "include": ["./src/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts"
+  ]
 }

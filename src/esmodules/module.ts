@@ -1,6 +1,6 @@
 const MODULE_ID = 'structured-table-results';
 
-function log(...args: any) {
+const log = (...args: any): void => {
   try {
     const dev_mode = game.modules?.get('_dev-mode');
     console.log("look here vvv");

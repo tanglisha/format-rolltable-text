@@ -1,0 +1,25 @@
+{
+  "extends": "../tsconfig.json",
+  "rootDir": "../",
+  "compilerOptions": {
+    "typeRoots": [
+      "../node_modules/@types",
+      "./node_modules/@types",
+      "../node_modules/@league-of-foundry-developers"
+    ],
+    "types": [
+      "@league-of-foundry-developers/foundry-vtt-types", 
+      "jest", 
+      "sinon",
+      "node"
+    ]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "rootDir": "../",
+    }
+  },
+  "include": ["../src", "./"]
+}
