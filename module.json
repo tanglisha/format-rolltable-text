@@ -2,6 +2,8 @@
   "id": "structured-table-results",
   "title": "Structured Table Results",
   "description": "Adds a WSIWIG (visual) editor for roll table results.", 
+  "download": "https://github.com/tanglisha/structured-table-results/releases/latest/download/module.zip",
+  "manifest": "https://github.com/tanglisha/structured-table-results/releases/latest/download/module.json",
   "authors": [
     {
       "name": "tanglisha"
