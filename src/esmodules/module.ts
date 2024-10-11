@@ -59,10 +59,6 @@ class LocalTableResult extends TableResult {
   get index(): number {
     return this.index;
   }
-
-  get rangeText(): string {
-    return `${this.range[0]}-${this.range[1]}`;
-  }
 }
 
 var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollTable: RollTable) => {
@@ -119,35 +115,18 @@ export class RollTableTextHelper extends FormApplication {
   table: DocumentSheet<DocumentSheetOptions<RollTable>, RollTable>;
   originalElement: JQuery<HTMLInputElement>;
 
+  /**
+   * 
+   * @param event 
+   * @param formData 
+   * @returns an empty promise
+   * 
+   * Called when the editing popup window is closed
+   * Updates the original input element with the new text
+   */
   protected _updateObject(event: Event, formData: FormData): Promise<unknown> {
-    const allResults = this.table.document.results;
-    // const thisResult = this.table.document.results.get(this.itemResult.id!);
-    // const documentCollection = this.itemResult.documentCollection;
-    // let expanded = foundry.utils.expandObject(this.itemResult);
-    // expanded.results = expanded.hasOwnProperty('results') ? expanded.results : [];
-    allResults.contents[this.itemResult.index].text = formData.text;
     this.originalElement.val(formData.text);
-    return this.table.document.update({contents: allResults.contents}, {diff: false, recursive: false});
-    // this.table.document.
-
-    const data: Record<"text", string> = {text: formData.text};
-    /*this.table.document.results.filter((result: TableResult) => {
-      // result.sheet.id = BaseSheet-RollTable-LFVTdHyI3jYxiPEF-TableResult-UUEyzoN8xOSo6EXG
-      // this.table.document.id = LFVTdHyI3jYxiPEF
-      // result.sheet.object.id = UUEyzoN8xOSo6EXG - private
-      // this.itemResult.documentCollection = RollTable
-      // this.table.document.results.
-      //
-      // `BaseSheet-${this.itemResult.documentCollection}-${this.table.document.id}-
-      let original = result.parent?.results.get(result.id!);
-      // this.itemResult.parent?.results.get(id!);
-      return this.itemResult.sheet?.id === result.sheet?.id;
-    })*/
-
-    let original = this.table.document.results.get(this.itemResult.id!);
-    original!.text = formData.text;
-    // let original: TableResult = this.itemResult;
-    return this.table.document.update(data, {diff: false, recursive: false});
+    return Promise.resolve();
   }
 
   get title(): string {
@@ -176,15 +155,10 @@ export class RollTableTextHelper extends FormApplication {
   */
   async getData(options?: Partial<FormApplicationOptions> | undefined): Promise<GetDataReturnType<FormApplication.FormApplicationData<FormApplicationOptions, unknown>>> {
     let superContext = super.getData(options);
-    // let textHTML = await TextEditor.enrichHTML(this.itemResult.text, {secrets: this.itemResult.isOwner});
-    log("parent info in getData");
-    log(this.itemResult);
     let instanceContext = {
       title: this.windowTitle,
-      // result: Handlebars.escapeExpression(this.itemResult.text),
       result: this.itemResult,
-      resultText: this.itemResult.text,
-      itemLabel: this.itemResult.rangeText,
+      range: `${this.itemResult.range[0]}-${this.itemResult.range[1]}`
     };
     let result = foundry.utils.mergeObject(superContext, instanceContext);
     return result;
@@ -193,12 +167,13 @@ export class RollTableTextHelper extends FormApplication {
   static get defaultOptions() {
     let defaults = super.defaultOptions;
     let local = {
-      id: "htmlInputTemplate",
+      classes: ["roll-table-config", "structured-table-results"],
       template: MODULE.templatePath,
       closeOnSubmit: true,
       submitOnClose: true,
       width: 500,
-      height: 300,
+      height: 'auto',
+      viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
     };
     return foundry.utils.mergeObject(defaults, local);
   }

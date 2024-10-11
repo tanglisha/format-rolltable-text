@@ -1,0 +1,26 @@
+---
+    name: zip
+    on:
+      push:
+        tags:
+          - "v*" # If we tag a release with v0.0.whatever, create a release
+    jobs:
+      tagged-release:
+        name: "Create Archived Zip for Tagged Release"
+        runs-on: "ubuntu-latest"
+    
+        steps:
+          - uses: actions/checkout@master
+          - name: Archive Release
+            id: zip_archive
+            uses: thedoctor0/zip-release@master
+            with:
+              filename: "module.zip"
+              exclusions: "*.git* .editorconfig"
+          - uses: "marvinpinto/action-automatic-releases@latest"
+            with:
+              repo_token: "${{ secrets.GITHUB_TOKEN }}"
+              prerelease: false
+              files: |
+                module.zip
+                module.json
