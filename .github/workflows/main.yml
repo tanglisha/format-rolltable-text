@@ -2,14 +2,14 @@ name: Module CI/CD
 
 on: 
   push:
-    branches:
-      - master
+    tags:
+      - "v*" # If we tag a release with v0.0.whatever, create a release
 
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
 
     # Get the version from 'module.json'
     - name: Get Version
@@ -25,7 +25,7 @@ jobs:
 
     # create a zip file with all files required by the module to add to the release
     - name: Zip Files
-      working-directory: ./dist #SORRY BUT YOU HAVE TO USE DIST JUST LIKE GET OVER IT OR FIGURE OUT A BETTER WAY
+      working-directory: ./dist 
       run: zip -r ../module.zip ${{steps.get-includes.outputs.files}}
 
     #Useful only for the template so we can leave the manifest and download urls empty
