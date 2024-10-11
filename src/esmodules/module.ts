@@ -3,6 +3,7 @@ import { MaybePromise, GetDataReturnType, InexactPartial } from "@league-of-foun
 import DocumentSheetV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/document-sheet.mjs';
 import { randomUUID } from "crypto";
 import { DOCUMENT_OWNERSHIP_LEVELS } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
+import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 
 const MODULE_ID = 'structured-table-results';
 
@@ -72,7 +73,8 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
 
   const tableName = rollTableData.object.name;
   // const tableDescription = rollTable.description;
-  const results = rollTable.results;
+  // const results = rollTable.results;
+  const results = rollTableData.object.results;
 
   let textResults = results
   // turn the result into a LocalResult so we can add the index
@@ -86,49 +88,78 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
     return `${result.type}` === CONST.TABLE_RESULT_TYPES.TEXT;
   })
 
-  log(textResults);
-
   textResults.forEach((result: LocalTableResult) => {
     // let row = html.find(`tr.table-result`)[result.index];
     // let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}].result-details`);
 
     let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}) .result-details`);
+
+    let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
+    resultTextInput.addClass("str-shorter-table-input")
+    resultTextInput.length -= 4;
+
     let button = document.createElement('button') as HTMLButtonElement;
-      button.type = "button";
-      button.textContent = "html"; // text on the button
-      button.onclick = () => new RollTableTextHelper(result, tableName).render(true);
-      button.style.width = "4em";
-      button.style.padding = "0 0 0 0";
-      let resultTextInput = resultCell?.find(`input[type=text]`);
-      resultTextInput.addClass("str-shorter-table-input")
-      resultTextInput.length -= 4;
-      resultCell.append(button);
+    button.type = "button";
+    button.textContent = "html"; // text on the button
+    button.onclick = () => new RollTableTextHelper(result, tableName, rollTableData, resultTextInput).render(true);
+    button.style.width = "4em";
+    button.style.padding = "0 0 0 0";
+
+    resultCell.append(button);
   })
   };  
+
+interface FormData {
+  text: string;
+}
 
 export class RollTableTextHelper extends FormApplication {
   itemResult: LocalTableResult;
   windowTitle: string;
+  table: DocumentSheet<DocumentSheetOptions<RollTable>, RollTable>;
+  originalElement: JQuery<HTMLInputElement>;
 
-  protected _updateObject(event: Event, formData: {text: string}): Promise<unknown> {
-    // const form = foundry.utils.expandObject(formData);
+  protected _updateObject(event: Event, formData: FormData): Promise<unknown> {
+    const allResults = this.table.document.results;
+    // const thisResult = this.table.document.results.get(this.itemResult.id!);
+    // const documentCollection = this.itemResult.documentCollection;
+    // let expanded = foundry.utils.expandObject(this.itemResult);
+    // expanded.results = expanded.hasOwnProperty('results') ? expanded.results : [];
+    allResults.contents[this.itemResult.index].text = formData.text;
+    this.originalElement.val(formData.text);
+    return this.table.document.update({contents: allResults.contents}, {diff: false, recursive: false});
+    // this.table.document.
 
-    // this.inputElement.value = formData?['value'];
-    // this.itemResult.text = formData.text;
-    return this.itemResult.update(formData)
+    const data: Record<"text", string> = {text: formData.text};
+    /*this.table.document.results.filter((result: TableResult) => {
+      // result.sheet.id = BaseSheet-RollTable-LFVTdHyI3jYxiPEF-TableResult-UUEyzoN8xOSo6EXG
+      // this.table.document.id = LFVTdHyI3jYxiPEF
+      // result.sheet.object.id = UUEyzoN8xOSo6EXG - private
+      // this.itemResult.documentCollection = RollTable
+      // this.table.document.results.
+      //
+      // `BaseSheet-${this.itemResult.documentCollection}-${this.table.document.id}-
+      let original = result.parent?.results.get(result.id!);
+      // this.itemResult.parent?.results.get(id!);
+      return this.itemResult.sheet?.id === result.sheet?.id;
+    })*/
+
+    let original = this.table.document.results.get(this.itemResult.id!);
+    original!.text = formData.text;
+    // let original: TableResult = this.itemResult;
+    return this.table.document.update(data, {diff: false, recursive: false});
   }
-
-  // TODO: The save button doesn't work, but closing the window runs _updateObject
-  //       Check roll-table-config.js line 307 for how foundry itself does it
 
   get title(): string {
     return this.windowTitle;
   }
 
-  constructor(result: LocalTableResult, windowTitle: string) {
+  constructor(result: LocalTableResult, windowTitle: string, table: RollTableConfig, inputElement: JQuery<HTMLInputElement>) {
     super(result);
     this.itemResult = result;
     this.windowTitle = windowTitle;
+    this.table = table;
+    this.originalElement = inputElement;
     loadTemplates([MODULE.templatePath]).then(() => {
       
     });
