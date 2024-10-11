@@ -1,3 +1,18 @@
+# Structured Table Results
+Add a button to roll table results which lets you edit text results in a nice editor, the same type as the roll table description uses.
+
+![Screenshot of a rolltable config document with the new `html` button](images/rolltable-config.png)
+
+![Screenshot of the popup editor](images/editor_popup.png)
+
+The text in the regular configuration view will include the html tags when the popup is closed.
+
+# Development
+`npm i -D "${FOUNDRY_PATH}/resources/app`
+
+## Foundry Badge
+[I got the badge from here](https://foundryshields.com/)
+
 ![](https://img.shields.io/badge/Foundry-v0.7.9-informational)
 <!--- Downloads @ Latest Badge -->
 <!--- replace <user>/<repo> with your username/repository -->
