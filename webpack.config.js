@@ -3,15 +3,15 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
-const isTest = process.env.NODE_ENV == "test";
 
-const moduleExcludes = () => {
+const moduleExcludes = (env) => {
     if (isProduction) {
-        return ["/node_modules/", "/__tests__/"];
+        return [
+          "/node_modules/",
+        ];
     }
     return [];
 };
@@ -19,9 +19,11 @@ const moduleExcludes = () => {
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
+  devtool: "source-map",
   mode: isProduction ? "production" : "development",
   entry: {
     module: "./src/esmodules/module.ts",
+    // foundry: env.FOUNDRY_HOME + "/resources/app/main.mjs"
   },
   watch: isProduction ? false : true,
   output: {
@@ -33,14 +35,13 @@ const config = {
     new CopyPlugin({
       patterns: [
         { from: "module.json", to: "module.json" },
+        { from: "templates/**/*", to: "." },
+        { from: "styles/**/*", to: "." },
       ],
     }),
-    /*new HtmlWebpackPlugin({
-            template: 'index.html',
-        }),*/
 
     new MiniCssExtractPlugin({
-      // filename: '[name].css',
+      filename: '[name].css',
 }),
 
     new RemoveEmptyScriptsPlugin(),
@@ -51,6 +52,7 @@ const config = {
   module: {
     rules: [
       {
+        // module typescript files
         test: /\.(ts|tsx)$/i,
         exclude: moduleExcludes(),
         use: ["ts-loader"],
@@ -75,22 +77,28 @@ const config = {
   stats: {
     children: true,
   },
-  devtool: "inline-source-map",
 };
 
 // config.context = path.resolve(__dirname, 'src');
 
 module.exports = () => {
   if (isProduction) {
+    // prod mode
     config.mode = "production";
-
-    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
-
-    config.module.rules.push();
-  } else if (isTest) {
-    config.mode = "test";
   } else {
+    // dev mode
+    // config.module.rules.push({
+    //     test: /\.(ts|tsx)$/i,
+    //     include: [
+    //       /\.test\.(ts|tsx)$/i,
+    //     ],
+    //     use: ["ts-loader"]
+    //   });
     config.mode = "development";
+    // config.entry.tests = {
+    //   filename: "./__tests__/module.test.ts",
+    //   import: "./__tests__/primary.test.ts",
+    // };
   }
   return config;
 };

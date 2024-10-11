@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "esModuleInterop": true,
+  "strictNullChecks": true,
+  "references": [
+    {"path": "/home/tanglisha/foundryvtt/public"}
+  ],
+  "paths":
+  {
+    "foundry/*": "/home/tanglisha/foundryvtt/public/"
+  },
+  "compilerOptions": {
+    "types": [
+      "jest",
+      "@league-of-foundry-developers/foundry-vtt-types",
+    ]
+  },
+  "include": [
+    "src",
+    "node_modules",
+    "node_modules/@league-of-foundry-developers"
+  ],
+  "exclude": []
+}

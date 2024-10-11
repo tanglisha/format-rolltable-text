@@ -1,5 +1,5 @@
 {
-  "id": "sructured-table-results",
+  "id": "structured-table-results",
   "title": "Structured Table Results",
   "description": "Adds a WSIWIG (visual) editor for roll table results.", 
   "authors": [
@@ -7,50 +7,15 @@
       "name": "tanglisha"
     }
   ],
-  "version": "0.0.1",
   "compatibility": {
     "minimum": "12",
-    "verified": "12",
-    "maximum": "12"
+    "verified": "12"
   },
-  "url": "https://raw.githubusercontent.com/tanglisha/structured-table-results/main/src/module.json",
-  "manifest": "",
-  "download": "",
-  "type": "module",
-  "includes": [
-    "./assets/**",
-    "./lang/**",
-    "./esmodules/**",
-    "./styles/**",
-    "./templates/**",
-    "./module.json",
-    "./README.md"
-  ],
-  "media": [
-    {
-      "type": "icon",
-      "location": ""
-    }, 
-    {
-      "type": "cover",
-      "location": ""
-    },
-    {
-      "type": "screenshot",
-      "location": ""
-    }
-  ],
+  "version": "0.0.1",
   "esmodules": [
-    "scripts/module.js"
+    "esmodules/module.js"
   ],
   "styles": [
     "styles/module.css"
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
   ]
 }
