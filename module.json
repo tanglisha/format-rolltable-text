@@ -11,6 +11,7 @@
   ],
   "compatibility": {
     "minimum": "12",
+    "maximum": "12",
     "verified": "12"
   },
   "version": "0.0.1",
