@@ -31,11 +31,11 @@ jobs:
         file: ./module.json
         fields: "{\"version\": \"${{ env.VERSION }}\"}"
 
-    # Get the name from 'module.json'
-    - name: Get Includes
-      shell: bash
-      id: get-includes
-      run: echo "::set-output name=files::$(node ./.github/workflows/get-includes.js)"
+    # # Get the name from 'module.json'
+    # - name: Get Includes
+    #   shell: bash
+    #   id: get-includes
+    #   run: echo "::set-output name=files::$(node ./.github/workflows/get-includes.js)"
 
     # Run the build
     - name: Build
@@ -46,7 +46,7 @@ jobs:
       working-directory: dist 
       run: zip -r ../module.zip ${{steps.get-includes.outputs.files}}
 
-    #Useful only for the template so we can leave the manifest and download urls empty
+    # Useful only for the template so we can leave the manifest and download urls empty
     - name: Substitute Manifest and Download Links For Versioned Ones
       id: sub_manifest_link_latest
       uses: microsoft/variable-substitution@v1
