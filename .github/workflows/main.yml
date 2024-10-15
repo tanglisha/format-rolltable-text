@@ -15,21 +15,12 @@ jobs:
     
     - uses: actions/setup-node@v4
 
-    - name: Extract version from tag
-      uses: damienaicheh/extract-version-from-tag-action@v1.3.0
-
-    - name: Get version
-      shell: bash
-      run: echo "MAJOR=$MAJOR" >> $GITHUB_ENV
-      env:
-        VERSION: "${{ github.ref_name }}"
-
     # Update the version in module.json
     - name: Update version in module.json
       uses: restackio/update-json-file-action@2.1
       with: 
         file: ./module.json
-        fields: "{\"version\": \"${{ env.VERSION }}\"}"
+        fields: "{\"version\": \"${{ github.ref_name }}\"}"
 
     # # Get the name from 'module.json'
     # - name: Get Includes
@@ -87,9 +78,9 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: false # set this to false if you want to prevent updating existing releases
-        name: Release ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+        name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: './dist/module.json,./module.zip'
-        tag: ${{ env.VERSION }}
+        tag: ${{ github.ref_name }}
