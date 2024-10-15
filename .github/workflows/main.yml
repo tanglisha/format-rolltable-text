@@ -35,7 +35,7 @@ jobs:
     # create a zip file with all files required by the module to add to the release
     - name: Zip Files
       working-directory: ./dist 
-      run: zip -r 'structured-table-results' ../module.zip ${{steps.get-includes.outputs.files}}
+      run: zip -r 'structured-table-results.${{ github.ref_name }}.zip' module.zip .
 
     # Useful only for the template so we can leave the manifest and download urls empty
     - name: Substitute Manifest and Download Links For Versioned Ones
