@@ -22,7 +22,7 @@ jobs:
       shell: bash
       run: echo "MAJOR=$MAJOR" >> $GITHUB_ENV
       env:
-        VERSION: "${{ env.github.ref_name }}"
+        VERSION: "${{ github.ref_name }}"
 
     # Update the version in module.json
     - name: Update version in module.json
