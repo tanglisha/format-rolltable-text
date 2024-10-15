@@ -3,7 +3,7 @@ name: Module CI/CD
 on: 
   push:
     tags:
-      - "v*" # If we tag a release with v0.0.whatever, create a release
+      - '\d+\.\d+\.\d+' # If we tag a release with v0.0.whatever, create a release
 
 jobs: 
   build:
