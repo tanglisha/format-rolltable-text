@@ -18,12 +18,18 @@ jobs:
     - name: Extract version from tag
       uses: damienaicheh/extract-version-from-tag-action@v1.3.0
 
+    - name: Get version
+      shell: bash
+      run: echo "MAJOR=$MAJOR" >> $GITHUB_ENV
+      env:
+        VERSION: ${{ steps.extract-version.outputs.major }}.${{ steps.extract-version.outputs.minor }}.${{ steps.extract-version.outputs.patch }}
+
     # Update the version in module.json
     - name: Update version in module.json
       uses: restackio/update-json-file-action@2.1
       with: 
         file: ./module.json
-        fields: "{\"version\": \"${VERSION}\"}"
+        fields: "{\"version\": \"${{ env.VERSION }}\"}"
 
     # Get the name from 'module.json'
     - name: Get Includes
