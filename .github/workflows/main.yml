@@ -55,7 +55,7 @@ jobs:
         makeLatest: true
         draft: false
         prerelease: false
-        artifacts: './dist/module.json, ./module.zip'
+        artifacts: './dist/module.json, ./dist/module.zip'
         tag: latest
 
     # Create a release for this specific version
