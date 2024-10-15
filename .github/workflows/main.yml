@@ -5,15 +5,18 @@ on:
     tags:
       - "v*" # If we tag a release with v0.0.whatever, create a release
 
-env:
-  VERSION: "${{ format('v', github.ref_name, '') }}"
-
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    
     - uses: actions/setup-node@v4
+
+    - name: Extract version from tag
+      uses: damienaicheh/extract-version-from-tag-action@v1.3.0
 
     # Update the version in module.json
     - name: Update version in module.json
@@ -21,10 +24,6 @@ jobs:
       with: 
         file: ./module.json
         fields: "{\"version\": \"${VERSION}\"}"
-
-    - name: Get Version
-      shell: bash
-      run: echo "${{env.VERSION}}"
 
     # Get the name from 'module.json'
     - name: Get Includes
@@ -82,7 +81,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: false # set this to false if you want to prevent updating existing releases
-        name: Release ${{ env.VERSION }}
+        name: Release ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
