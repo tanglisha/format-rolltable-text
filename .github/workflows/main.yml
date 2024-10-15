@@ -20,7 +20,7 @@ jobs:
       uses: restackio/update-json-file-action@2.1
       with: 
         file: ./module.json
-        fields: "{'version': '${VERSION}'}"
+        fields: "{\"version\": \"${VERSION}\"}"
 
     - name: Get Version
       shell: bash
