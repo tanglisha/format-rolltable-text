@@ -15,14 +15,11 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v4
 
-    - name: File check
-      shell: bash
-      run: ls -lah
-
     # Update the version in module.json
-    - uses: restackio/update-json-file-action@2.1
+    - name: Update version in module.json
+      uses: restackio/update-json-file-action@2.1
       with: 
-        file: ./manifest.json
+        file: ./module.json
         fields: "{'version': '${VERSION}'}"
 
     - name: Get Version
