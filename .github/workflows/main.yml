@@ -53,11 +53,10 @@ jobs:
       id: create_latest_release
       uses: ncipollo/release-action@v1
       with:
-        allowUpdates: true
-        name: Latest
+        allowUpdates: false
+        makeLatest: true
         draft: false
         prerelease: false
-        token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: './dist/module.json, ./module.zip'
         tag: latest
 
