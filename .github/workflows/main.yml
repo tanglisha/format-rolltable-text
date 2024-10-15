@@ -64,11 +64,10 @@ jobs:
       id: create_version_release
       uses: ncipollo/release-action@v1
       with:
-        allowUpdates: false # set this to false if you want to prevent updating existing releases
-        makeLatest: true
+        allowUpdates: true # set this to false if you want to prevent updating existing releases
         name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: './dist/module.json,./dist/module.zip'
+        makeLatest: true
         tag: ${{ github.ref_name }}
