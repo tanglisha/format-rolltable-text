@@ -5,6 +5,9 @@ on:
     tags:
       - "v*" # If we tag a release with v0.0.whatever, create a release
 
+env:
+  VERSION: "${{ format('v', github.ref_name, '') }}"
+
 jobs: 
   build:
     runs-on: ubuntu-latest
@@ -12,11 +15,15 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v4
 
-    # Get the version from 'module.json'
+    # Update the version in module.json
+    - uses: restackio/update-json-file-action@2.1
+      with: 
+        file: ./manifest.json
+        fields: "{'version': '${VERSION}'}"
+
     - name: Get Version
       shell: bash
-      id: get-version
-      run: echo "::set-output name=version::$(node ./.github/workflows/get-version.js)"
+      run: echo "${{env.VERSION}}"
 
     # Get the name from 'module.json'
     - name: Get Includes
@@ -30,7 +37,7 @@ jobs:
 
     # create a zip file with all files required by the module to add to the release
     - name: Zip Files
-      working-directory: ./dist 
+      working-directory: dist 
       run: zip -r ../module.zip ${{steps.get-includes.outputs.files}}
 
     #Useful only for the template so we can leave the manifest and download urls empty
@@ -48,7 +55,6 @@ jobs:
     - name: Update Latest Release
       id: create_latest_release
       uses: ncipollo/release-action@v1
-      if: endsWith(github.ref, 'master')
       with:
         allowUpdates: true
         name: Latest
@@ -74,10 +80,10 @@ jobs:
       id: create_version_release
       uses: ncipollo/release-action@v1
       with:
-        allowUpdates: true # set this to false if you want to prevent updating existing releases
-        name: Release ${{ steps.get-version.outputs.version }}
+        allowUpdates: false # set this to false if you want to prevent updating existing releases
+        name: Release ${{ env.VERSION }}
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: './dist/module.json,./module.zip'
-        tag: ${{ steps.get-version.outputs.version }}
+        tag: ${{ env.VERSION }}
