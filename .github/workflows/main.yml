@@ -59,25 +59,13 @@ jobs:
       with:
         subject-path: './dist/module.json'
     
-
-    # Update the 'latest' release
-    - name: Update Latest Release
-      id: create_latest_release
-      uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: false
-        makeLatest: true
-        draft: false
-        prerelease: false
-        artifacts: './dist/module.json, ./dist/module.zip'
-        tag: latest
-
     # Create a release for this specific version
     - name: Create Version Release
       id: create_version_release
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: false # set this to false if you want to prevent updating existing releases
+        makeLatest: true
         name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
