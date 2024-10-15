@@ -42,10 +42,6 @@ jobs:
       working-directory: ./dist 
       run: zip -r module .
 
-    - name: view all files
-      shell: bash
-      run: ls -lahR
-
     # Update the 'latest' release
     - name: Update Latest Release
       id: create_latest_release
@@ -68,5 +64,5 @@ jobs:
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: './dist/module.json,./module.zip'
+        artifacts: './dist/module.json,./dist/module.zip'
         tag: ${{ github.ref_name }}
