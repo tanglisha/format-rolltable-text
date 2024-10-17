@@ -1,4 +1,4 @@
-# Structured Table Results
+# Format RollTable Text
 Add a button to roll table results which lets you edit text results in a nice editor, the same type as the roll table description uses.
 
 ![Screenshot of a rolltable config document with the new `html` button](images/rolltable-config.png)

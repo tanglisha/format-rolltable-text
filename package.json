@@ -19,7 +19,7 @@
   "main": "dist/esmodules/module.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tanglisha/structured-table-results.git"
+    "url": "https://github.com/tanglisha/format-rolltable-text.git"
   },
   "devDependencies": {
     "@babel/plugin-transform-typescript": "^7.25.2",

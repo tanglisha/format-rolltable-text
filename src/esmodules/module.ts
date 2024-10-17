@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 import { DOCUMENT_OWNERSHIP_LEVELS } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 import { Document } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/module.mjs";
 
-const MODULE_ID = 'structured-table-results';
+const MODULE_ID = 'format-rolltable-text';
 
 export const MODULE = {
   ns: MODULE_ID,
@@ -167,7 +167,7 @@ export class RollTableTextHelper extends FormApplication {
   static get defaultOptions() {
     let defaults = super.defaultOptions;
     let local = {
-      classes: ["roll-table-config", "structured-table-results"],
+      classes: ["roll-table-config", "format-rolltable-text"],
       template: MODULE.templatePath,
       closeOnSubmit: true,
       submitOnClose: true,
