@@ -68,3 +68,10 @@ jobs:
         artifacts: './dist/module.json,./dist/module.zip'
         makeLatest: true
         tag: ${{ github.ref_name }}
+
+    - name: Publish Module to FoundryVTT Website
+      id: publish-to-foundry-website
+      uses: cs96and/FoundryVTT-release-package@v1
+      with:
+        package-token: ${{ secrets.PACKAGE_TOKEN }}
+        manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.ref_name}}/module.json
