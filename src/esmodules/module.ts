@@ -81,7 +81,7 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
     let button = document.createElement('button') as HTMLButtonElement;
     button.type = "button";
     button.innerHTML = "<i class='fas fa-edit' title='Edit'></i>";
-    button.onclick = () => new RollTableTextHelper(result, tableName, rollTable, rollTableData, resultTextInput).render(true);
+    button.onclick = () => new RollTableTextHelper(result, tableName, resultTextInput).render(true);
     button.style.width = "2em";
     button.style.padding = "0 0 0 0";
 
@@ -96,8 +96,6 @@ interface FormData {
 export class RollTableTextHelper extends FormApplication {
   itemResult: LocalTableResult;
   windowTitle: string;
-  table: RollTable;
-  tableConfig: DocumentSheet<DocumentSheetOptions<RollTable>, RollTable>;
   originalElement: JQuery<HTMLInputElement>;
 
   /**
@@ -119,11 +117,10 @@ export class RollTableTextHelper extends FormApplication {
     return this.windowTitle;
   }
 
-  constructor(result: LocalTableResult, windowTitle: string, rolltable: RollTable, tableConfig: RollTableConfig, inputElement: JQuery<HTMLInputElement>) {
+  constructor(result: LocalTableResult, windowTitle: string, inputElement: JQuery<HTMLInputElement>) {
     super(result);
     this.itemResult = result;
     this.windowTitle = windowTitle;
-    this.table = rolltable;
     this.originalElement = inputElement;
     loadTemplates([MODULE.templatePath]).then(() => {
       
