@@ -92,13 +92,13 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
 
     let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
     resultTextInput.addClass("str-shorter-table-input")
-    resultTextInput.length -= 4;
+    resultTextInput.length -= 1;
 
     let button = document.createElement('button') as HTMLButtonElement;
     button.type = "button";
-    button.textContent = "html"; // text on the button
+    button.innerHTML = "<i class='fas fa-edit' title='Edit'></i>";
     button.onclick = () => new RollTableTextHelper(result, tableName, rollTableData, resultTextInput).render(true);
-    button.style.width = "4em";
+    button.style.width = "2em";
     button.style.padding = "0 0 0 0";
 
     resultCell.append(button);
@@ -166,12 +166,14 @@ export class RollTableTextHelper extends FormApplication {
 
   static get defaultOptions() {
     let defaults = super.defaultOptions;
-    let local = {
+    let local: FormApplicationOptions = {
       classes: ["roll-table-config", "format-rolltable-text"],
       template: MODULE.templatePath,
       closeOnSubmit: true,
       submitOnClose: true,
-      width: 500,
+      popOut: true,
+      resizeable: true,
+      width: 'auto',
       height: 'auto',
       viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
     };
