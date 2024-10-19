@@ -149,7 +149,7 @@ export class RollTableTextHelper extends FormApplication {
 
   static get defaultOptions() {
     let defaults = super.defaultOptions;
-    let local: FormApplicationOptions = {
+    let local = {
       classes: ["roll-table-config", "format-rolltable-text"],
       template: MODULE.templatePath,
       closeOnSubmit: true,
