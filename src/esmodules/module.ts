@@ -158,7 +158,7 @@ export class RollTableTextHelper extends FormApplication {
       resizable: true,
       // width: 'auto',
       height: 'auto',
-      viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
+      // viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
     };
     return foundry.utils.mergeObject(defaults, local);
   }
