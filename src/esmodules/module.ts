@@ -88,7 +88,7 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
     // let row = html.find(`tr.table-result`)[result.index];
     // let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}].result-details`);
 
-    let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}) .result-details`);
+    let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}) td.result-details`);
 
     let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
     resultTextInput.addClass("str-shorter-table-input")
