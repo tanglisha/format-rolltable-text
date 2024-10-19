@@ -155,7 +155,7 @@ export class RollTableTextHelper extends FormApplication {
       closeOnSubmit: true,
       submitOnClose: true,
       popOut: true,
-      resizeable: true,
+      resizable: true,
       // width: 'auto',
       height: 'auto',
       viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
