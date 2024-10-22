@@ -3,6 +3,7 @@
 # Required GitPython - `pip install gitpython`
 
 from git import Repo, Tag
+import os
 from packaging.version import Version, InvalidVersion
 
 class DirtyRepoError(Exception):
@@ -52,7 +53,7 @@ def get_repo():
     return repo
 
 def set_up_tag(repo, tag, msg_file):
-    tag_obj = repo.git.tag.create(tag, F=msg_file)
+    tag_obj = repo.git.tag(tag, F=msg_file)
     print(f"tag created for new version {tag}")
     print(tag_obj)
     repo.git.push()
@@ -67,12 +68,11 @@ def run():
 
     print("What changes are in the new version? (opens editor)")
     msg_file = "tmp_msg.txt"
-    with open(tmp_msg, "w") as handle:
-        handle.writeline("")
-        handle.writeline("")
-    os.system(f"vim {tmp_msg}")
+    with open(msg_file, "w") as handle:
+        handle.writelines(["", "", f"v{new_version}"])
+    os.system(f"vim {msg_file}")
 
-    set_up_tag(repo, new_version, tmp_msg)
+    set_up_tag(repo, new_version, msg_file)
 
 if "__main__" == __name__:
     run()
