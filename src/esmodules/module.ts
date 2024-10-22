@@ -72,11 +72,11 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
   })
 
   textResults.forEach((result: LocalTableResult) => {
-    let allResultRows = html.find('tr.table-result:not(.table-header)');
-    let textResultRows = allResultRows.filter(':has(.result-type option:checked[value="text"])');
-    
-    let resultRow = textResultRows.eq(result.index);
-    let resultCell = resultRow.find(`td.result-details`);
+    let resultCell = html
+                        .find('tr.table-result:not(.table-header)')
+                        .filter(':has(.result-type option:checked[value="text"])')
+                        .eq(result.index)
+                        .find(`td.result-details`);
 
     let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
     resultTextInput.addClass("str-shorter-table-input")
@@ -160,9 +160,8 @@ export class RollTableTextHelper extends FormApplication {
       submitOnClose: true,
       popOut: true,
       resizable: true,
-      // width: 'auto',
-      height: 'auto',
-      // viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
+      width: '550',
+      height: '250',
     };
     return foundry.utils.mergeObject(defaults, local);
   }
