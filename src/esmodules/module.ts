@@ -72,7 +72,11 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
   })
 
   textResults.forEach((result: LocalTableResult) => {
-    let resultCell = html.find(`tr.table-result:nth-child(${result.index + 1}) td.result-details`);
+    let allResultRows = html.find('tr.table-result:not(.table-header)');
+    let textResultRows = allResultRows.filter(':has(.result-type option:checked[value="text"])');
+    
+    let resultRow = textResultRows.eq(result.index);
+    let resultCell = resultRow.find(`td.result-details`);
 
     let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
     resultTextInput.addClass("str-shorter-table-input")
