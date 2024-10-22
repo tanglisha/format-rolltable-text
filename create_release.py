@@ -51,9 +51,10 @@ def get_repo():
 
     return repo
 
-def set_up_tag(repo, tag):
-    repo.git.tag(tag)
+def set_up_tag(repo, tag, msg_file):
+    tag_obj = repo.git.tag.create(tag, F=msg_file)
     print(f"tag created for new version {tag}")
+    print(tag_obj)
     repo.git.push()
     repo.git.push("--tags")
     print(f"release pushed")
@@ -64,7 +65,14 @@ def run():
 
     new_version = input(f"Current version is {current_version}. Enter new version: ")
 
-    set_up_tag(repo, new_version)
+    print("What changes are in the new version? (opens editor)")
+    msg_file = "tmp_msg.txt"
+    with open(tmp_msg, "w") as handle:
+        handle.writeline("")
+        handle.writeline("")
+    os.system(f"vim {tmp_msg}")
+
+    set_up_tag(repo, new_version, tmp_msg)
 
 if "__main__" == __name__:
     run()
