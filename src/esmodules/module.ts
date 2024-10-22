@@ -60,23 +60,22 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
   const results = rollTableData.object.results;
 
   let textResults = results
+  // filter out any results which aren't of the text type (documents and other tables)
+  .filter((result: LocalTableResult) => {
+    return `${result.type}` === CONST.TABLE_RESULT_TYPES.TEXT;
+  })
   // turn the result into a LocalResult so we can add the index
   .map((result: TableResult, index: number) => {
     let localResult = result as LocalTableResult;
     localResult.index = index;
     return localResult;
-  })
-  // filter out any results which aren't of the text type (documents and other tables)
-  .filter((result: LocalTableResult) => {
-    return `${result.type}` === CONST.TABLE_RESULT_TYPES.TEXT;
-  })
+  });
 
   textResults.forEach((result: LocalTableResult) => {
-    let resultCell = html
-                        .find('tr.table-result:not(.table-header)')
-                        .filter(':has(.result-type option:checked[value="text"])')
-                        .eq(result.index)
-                        .find(`td.result-details`);
+    let allRows = html.find('tr.table-result:not(.table-header)');
+    let textRows = allRows.filter(':has(.result-type option:checked[value="text"])');
+    let resultRow = textRows.eq(result.index);
+    let resultCell = resultRow.find(`td.result-details`);
 
     let resultTextInput = resultCell?.find(`input[type=text]`) as JQuery<HTMLInputElement>;
     resultTextInput.addClass("str-shorter-table-input")
