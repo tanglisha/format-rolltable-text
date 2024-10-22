@@ -61,7 +61,7 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
 
   let textResults = results
   // filter out any results which aren't of the text type (documents and other tables)
-  .filter((result: LocalTableResult) => {
+  .filter((result: TableResult) => {
     return `${result.type}` === CONST.TABLE_RESULT_TYPES.TEXT;
   })
   // turn the result into a LocalResult so we can add the index
@@ -74,6 +74,7 @@ var mutateTextInputs = async(rollTableData: RollTableConfig, html: JQuery, rollT
   textResults.forEach((result: LocalTableResult) => {
     let allRows = html.find('tr.table-result:not(.table-header)');
     let textRows = allRows.filter(':has(.result-type option:checked[value="text"])');
+    // from the text rows in this table, find the one with the same index as our result
     let resultRow = textRows.eq(result.index);
     let resultCell = resultRow.find(`td.result-details`);
 
